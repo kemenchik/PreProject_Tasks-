@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="spring_hibernate">
+    <output-path>$PROJECT_DIR$/out/artifacts/spring_hibernate</output-path>
+    <root id="root">
+      <element id="archive" name="spring_hibernate.jar">
+        <element id="module-output" name="spring_hibernate" />
+      </element>
+    </root>
+  </artifact>
+</component>
