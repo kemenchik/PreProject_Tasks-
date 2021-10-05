@@ -1,6 +1,6 @@
 package userApp.services;
 
-import userApp.model.User;
+import userApp.entities.User;
 
 import java.util.List;
 
