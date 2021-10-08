@@ -1061,9 +1061,7 @@
 </ObjectGrants>
     </user>
     <table id="339" parent="10" name="cars"/>
-    <table id="340" parent="10" name="users">
-      <Engine>MyISAM</Engine>
-    </table>
+    <table id="340" parent="10" name="users"/>
     <column id="341" parent="339" name="number">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
@@ -1090,22 +1088,35 @@
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="346" parent="340" name="last_name">
+    <column id="346" parent="340" name="email">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="347" parent="340" name="login">
+    <column id="347" parent="340" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="348" parent="340" name="first_name">
+    <column id="348" parent="340" name="last_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="349" parent="340" name="PRIMARY">
+    <column id="349" parent="340" name="car_number">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <index id="350" parent="340" name="FKi3mtd7611akvpww2dw0x0ywde">
+      <ColNames>car_number</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="351" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <foreign-key id="352" parent="340" name="FKi3mtd7611akvpww2dw0x0ywde">
+      <ColNames>car_number</ColNames>
+      <RefTableName>cars</RefTableName>
+      <RefColNames>number</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

@@ -21,4 +21,10 @@ public class User {
     private String name;
     @Column(name = "last_name")
     private String lastName;
+
+    public User(String login, String name, String lastName) {
+        this.login = login;
+        this.name = name;
+        this.lastName = lastName;
+    }
 }
