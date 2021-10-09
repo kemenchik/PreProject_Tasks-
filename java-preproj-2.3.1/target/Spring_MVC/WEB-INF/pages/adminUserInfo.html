@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block>
+    <form th:action="@{'/admin/put/' + ${user.getId()}}" method="post">
+        <input type="text" placeholder="login" name="login" th:value="${user.getLogin()}">
+        <input type="text" placeholder="name" name="name" th:value="${user.getName()}">
+        <input type="text" placeholder="last name" name="lastName" th:value="${user.getLastName()}">
+        <input type="submit" value="save">
+    </form>
+</th:block>
+</body>
+</html>

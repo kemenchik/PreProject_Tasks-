@@ -12,11 +12,13 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    void addAdmin(User user);
+
     User getUserById(long id);
 
     User getUserByLogin(String l) throws SQLException;
 
-    void updateUser(long id,User user);
+    void updateUser(long id, User user);
 
     void deleteUserById(long id);
 }

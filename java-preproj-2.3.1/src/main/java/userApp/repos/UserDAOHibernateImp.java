@@ -1,11 +1,15 @@
 package userApp.repos;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import userApp.entities.Role;
 import userApp.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDAOHibernateImp implements UserDao {
@@ -14,6 +18,9 @@ public class UserDAOHibernateImp implements UserDao {
 
     @Override
     public void createUser(User user) {
+        Set<Role> roles = new HashSet();
+        roles.add(getRoleById(RoleId.USER.getId()));
+        user.setRoles(roles);
         entityManager.persist(user);
     }
 
@@ -29,7 +36,10 @@ public class UserDAOHibernateImp implements UserDao {
 
     @Override
     public User userByLogin(String login) {
-        return (User) entityManager.createNativeQuery("select from users where login='" + login + "'").getSingleResult();
+        return entityManager
+                .createQuery("select u from User u where u.login=:login", User.class)
+                .setParameter("login", login)
+                .getSingleResult();
     }
 
     @Override
@@ -47,4 +57,18 @@ public class UserDAOHibernateImp implements UserDao {
     public void deleteUserById(long id) {
         entityManager.remove(userById(id));
     }
+
+    @Transactional
+    public Role getRoleById(long id) {
+        return entityManager.find(Role.class, id);
+    }
+
+    @Transactional
+    @Override
+    public void setAdminRole(User user) {
+        User dbUser = entityManager.find(User.class, user.getId());
+        dbUser.addRole(getRoleById(RoleId.ADMIN.getId()));
+        entityManager.merge(dbUser);
+    }
 }
+

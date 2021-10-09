@@ -1060,49 +1060,71 @@
       <ObjectGrants>ALL PRIVILEGES!
 </ObjectGrants>
     </user>
-    <table id="339" parent="10" name="cars"/>
-    <table id="340" parent="10" name="users">
+    <table id="339" parent="10" name="roles">
       <Engine>MyISAM</Engine>
     </table>
-    <column id="341" parent="339" name="number">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
-    </column>
-    <column id="342" parent="339" name="model">
-      <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-    </column>
-    <column id="343" parent="339" name="series">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="344" parent="339" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>number</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="345" parent="340" name="id">
+    <table id="340" parent="10" name="user_roles">
+      <Engine>MyISAM</Engine>
+    </table>
+    <table id="341" parent="10" name="users">
+      <Engine>MyISAM</Engine>
+    </table>
+    <column id="342" parent="339" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="346" parent="340" name="last_name">
+    <column id="343" parent="339" name="role">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="347" parent="340" name="login">
+    <key id="344" parent="339" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="345" parent="340" name="user_id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="346" parent="340" name="role_id">
+      <Position>2</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="347" parent="340" name="FKhfh9dx7w3ubf1co1vdev94g3f">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="348" parent="340" name="FKh8ciramu9cc9q3qcqiv4ue8a6">
+      <ColNames>role_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <column id="349" parent="341" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="350" parent="341" name="last_name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+    </column>
+    <column id="351" parent="341" name="login">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="348" parent="340" name="first_name">
+    <column id="352" parent="341" name="first_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <key id="349" parent="340" name="PRIMARY">
+    <column id="353" parent="341" name="password">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+    </column>
+    <key id="354" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

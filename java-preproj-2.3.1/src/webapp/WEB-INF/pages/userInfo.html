@@ -6,7 +6,7 @@
 </head>
 <body>
 <th:block>
-    <form th:action="@{'/users/' + ${user.getId()} + '/put'}" method="post">
+    <form action="/user/put" method="post">
         <input type="text" placeholder="login" name="login" th:value="${user.getLogin()}">
         <input type="text" placeholder="name" name="name" th:value="${user.getName()}">
         <input type="text" placeholder="last name" name="lastName" th:value="${user.getLastName()}">

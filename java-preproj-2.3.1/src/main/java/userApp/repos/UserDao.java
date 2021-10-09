@@ -1,7 +1,7 @@
 package userApp.repos;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import userApp.entities.Role;
 import userApp.entities.User;
 
 import java.util.List;
@@ -12,6 +12,10 @@ public interface UserDao {
     void createUser(User u);
 
     List<User> getUsers();
+
+    Role getRoleById(long id);
+
+    void setAdminRole(User user);
 
     User userById(long id);
 
