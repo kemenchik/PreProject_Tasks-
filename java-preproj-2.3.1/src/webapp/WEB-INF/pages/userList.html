@@ -10,7 +10,7 @@
     }
 </style>
 <body>
-<form action="/admin/create" method="post">
+<form action="/admin/create" method="post" th:if="${isAdmin}">
     <input type="text" placeholder="login" name="login">
     <input type="text" placeholder="name" name="name">
     <input type="text" placeholder="last name" name="lastName">
@@ -20,14 +20,8 @@
 <ul>
     <th:block th:each="user : ${users}">
         <li>
-            <a th:href="${user.getId()}" th:text="${user.getLogin()}"></a>
+            <a th:href="@{'/admin/' + ${user.getId()}}" th:text="${user.getLogin()}"></a>
         </li>
-        <form th:action="@{'/admin/delete/' + ${user.getId()}}" method="post">
-            <button>delete</button>
-        </form>
-        <form th:action="@{'/admin/add/' + ${user.getId()}}" method="post">
-            <button>add admin role</button>
-        </form>
     </th:block>
 </ul>
 </body>

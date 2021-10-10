@@ -10,7 +10,11 @@
         <input type="text" placeholder="login" name="login" th:value="${user.getLogin()}">
         <input type="text" placeholder="name" name="name" th:value="${user.getName()}">
         <input type="text" placeholder="last name" name="lastName" th:value="${user.getLastName()}">
+        <input type="checkbox" name="isAdmin" th:checked="${isAdmin}">
         <input type="submit" value="save">
+    </form>
+    <form th:action="@{'/admin/delete/' + ${user.getId()}}" method="post">
+        <button>delete</button>
     </form>
 </th:block>
 </body>

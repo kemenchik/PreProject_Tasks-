@@ -54,13 +54,19 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return getUserByLogin(s);
-    }
-
     @Transactional
-    @Override
     public void addAdmin(User user) {
         userDao.setAdminRole(user);
+    }
+
+    @Override
+    @Transactional
+    public void removeAdmin(User user) {
+        userDao.removeAdminRole(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return getUserByLogin(s);
     }
 }

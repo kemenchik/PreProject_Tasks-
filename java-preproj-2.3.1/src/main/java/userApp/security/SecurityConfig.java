@@ -29,13 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable(); //- попробуйте выяснить сами, что это даёт
         http.authorizeRequests()
-                .antMatchers("/").permitAll() // доступность всем
+                .antMatchers("/").permitAll()
                 .antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                .antMatchers("/admin/list").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-                .and().formLogin()
-                .successHandler(successUserHandler);
+                .and()
+                .formLogin()
+                .successHandler(successUserHandler)
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll()
+                .and()
+                .csrf()
+                .disable();
     }
 
     // Необходимо для шифрования паролей

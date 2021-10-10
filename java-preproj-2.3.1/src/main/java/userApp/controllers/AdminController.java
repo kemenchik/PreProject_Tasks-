@@ -2,9 +2,11 @@ package userApp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import userApp.entities.Role;
 import userApp.entities.User;
 import userApp.services.UserService;
 
@@ -16,12 +18,6 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
-    public String getUsers(Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "userList";
-    }
 
     @PostMapping("/create")
     public String createUser(
@@ -33,10 +29,25 @@ public class AdminController {
         return "redirect:/admin/list";
     }
 
+    @GetMapping("/list")
+    public String getUsers(Model model, @AuthenticationPrincipal User user) {
+        List<User> users = userService.getAllUsers();
+        boolean isAdmin = AuthorityUtils
+                .authorityListToSet(user.getAuthorities())
+                .contains(Role.ROLE_ADMIN.name());
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("users", users);
+        return "userList";
+    }
+
     @GetMapping("{id}")
     public String userInfo(
             Model model,
             @PathVariable("id") long id) {
+        boolean isAdmin = AuthorityUtils
+                .authorityListToSet(userService.getUserById(id).getAuthorities())
+                .contains(Role.ROLE_ADMIN.name());
+        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("user", userService.getUserById(id));
         return "adminUserInfo";
     }
@@ -46,6 +57,7 @@ public class AdminController {
             @ModelAttribute("login") String login,
             @ModelAttribute("name") String name,
             @ModelAttribute("lastName") String lastname,
+            @RequestParam(value = "isAdmin", required = false) boolean isAdmin,
             @PathVariable("id") long id) {
         User user = userService.getUserById(id);
         if (login != null) {
@@ -56,6 +68,15 @@ public class AdminController {
         }
         if (lastname != null) {
             user.setLastName(lastname);
+        }
+        if (isAdmin) {
+            if (!AuthorityUtils.authorityListToSet(user.getAuthorities()).contains(Role.ROLE_ADMIN.name())) {
+                userService.addAdmin(user);
+            }
+        } else {
+            if (AuthorityUtils.authorityListToSet(user.getAuthorities()).contains(Role.ROLE_ADMIN.name())) {
+                userService.removeAdmin(user);
+            }
         }
         userService.updateUser(id, user);
         return "redirect:/admin/" + id;

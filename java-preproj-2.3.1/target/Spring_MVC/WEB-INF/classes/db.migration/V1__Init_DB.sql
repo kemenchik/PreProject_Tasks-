@@ -1,10 +1,10 @@
-drop table if exists roles;
+drop table if exists authorities;
 drop table if exists user_roles;
 drop table if exists users;
-create table roles
+create table authorities
 (
     id   bigint not null auto_increment,
-    role varchar(255),
+    authority varchar(255),
     primary key (id)
 ) engine = MyISAM;
 create table user_roles
@@ -23,6 +23,6 @@ create table users
     primary key (id)
 ) engine = MyISAM;
 alter table user_roles
-    add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 foreign key (role_id) references roles (id);
+    add constraint FKh8ciramu9cc9q3qcqiv4ue8a6 foreign key (role_id) references authorities (id);
 alter table user_roles
     add constraint FKhfh9dx7w3ubf1co1vdev94g3f foreign key (user_id) references users (id)

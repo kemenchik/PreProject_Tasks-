@@ -27,42 +27,46 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "user_authorities",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+            inverseJoinColumns = {@JoinColumn(name = "authority_id")})
+    private Set<Authority> authorities = new HashSet<>();
 
     public User(String login, String name, String lastName, String password) {
         this.login = login;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
-        this.roles.add(new Role("ROLE_USER"));
+        this.authorities.add(new Authority(Role.ROLE_USER));
     }
 
-    public User(String login, String name, String lastName, String password, Role role) {
+    public User(String login, String name, String lastName, String password, Authority authority) {
         this.login = login;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
-        this.roles.add(role);
+        this.authorities.add(authority);
     }
 
-    public User(String login, String name, String lastName, String password, Set<Role> roles) {
+    public User(String login, String name, String lastName, String password, Set<Authority> authorities) {
         this.login = login;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
-        this.roles = roles;
+        this.authorities = authorities;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void addAuthority(Authority authority) {
+        authorities.add(authority);
+    }
+
+    public void removeAuthority(Authority authority) {
+        authorities.remove(authority);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return authorities;
     }
 
     @Override

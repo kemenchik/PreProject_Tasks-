@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import userApp.entities.User;
 import userApp.services.UserService;
 
@@ -28,7 +31,16 @@ public class UserController {
             @ModelAttribute("name") String name,
             @ModelAttribute("lastName") String lastname,
             @AuthenticationPrincipal User user) {
+        if (login != null) {
+            user.setLogin(login);
+        }
+        if (name != null) {
+            user.setName(name);
+        }
+        if (lastname != null) {
+            user.setLastName(lastname);
+        }
         userService.updateUser(user.getId(), user);
-        return "redirect:/user";
+        return "redirect:/user/info";
     }
 }
