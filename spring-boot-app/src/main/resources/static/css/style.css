@@ -1,0 +1,36 @@
+body {
+    height: 100vh;
+}
+
+.grid-container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.side-bar {
+    height: 100%;
+    grid-column-start: 0;
+    grid-column-end: 2;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    height: 100%;
+    grid-column-start: 2;
+    grid-column-end: 6;
+    padding: 1rem;
+}
+
+.side-bar-item {
+    width: 100%;
+    padding: 13px 5px;
+    height: 4rem;
+    border-radius: 7px;
+    font-size: 20px;
+    font-weight: 600;
+}

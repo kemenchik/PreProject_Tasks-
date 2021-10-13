@@ -1,8 +1,10 @@
 package com.example.kemen.entities;
 
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,14 +33,6 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id")})
     private Set<Authority> authorities = new HashSet<>();
-
-    public User(String login, String name, String lastName, String password) {
-        this.login = login;
-        this.name = name;
-        this.lastName = lastName;
-        this.password = password;
-        this.authorities.add(new Authority(Role.ROLE_USER));
-    }
 
     public User(String login, String name, String lastName, String password, Authority authority) {
         this.login = login;
@@ -61,6 +56,14 @@ public class User implements UserDetails {
 
     public void removeAuthority(Authority authority) {
         authorities.remove(authority);
+    }
+
+    public boolean isAdmin() {
+        return getRoles().contains(Role.ROLE_ADMIN.name());
+    }
+
+    public Set<String> getRoles() {
+        return AuthorityUtils.authorityListToSet(this.getAuthorities());
     }
 
     @Override

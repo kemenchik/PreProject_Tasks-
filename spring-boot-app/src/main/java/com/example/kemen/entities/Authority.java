@@ -3,6 +3,7 @@ package com.example.kemen.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -19,6 +20,7 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
+    @Transient
     @ManyToMany(mappedBy = "authorities")
     private Set<User> users;
 
@@ -32,6 +34,11 @@ public class Authority implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
+        return role.name();
+    }
+
+    @Override
+    public String toString() {
         return role.name();
     }
 }
