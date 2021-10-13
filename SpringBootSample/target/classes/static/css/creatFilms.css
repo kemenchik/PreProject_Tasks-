@@ -1,0 +1,19 @@
+TABLE {
+    margin: 1% ;
+    width: 50%;
+    border: white;
+    border-collapse: collapse;
+    border-style: hidden;
+
+
+}
+TD {
+    color: #222;
+    text-align: center;
+    border-bottom: 1px solid #9F9F9F;
+}
+TD, TH {
+    padding: 10px;
+    text-align: left;
+
+}

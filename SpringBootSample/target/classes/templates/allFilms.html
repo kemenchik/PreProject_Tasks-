@@ -1,0 +1,71 @@
+<!doctype html>
+<!--ctrl+n для поиска класса-->
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/css/allFilms.css" rel="stylesheet">
+    <title>Фильмы</title>
+</head>
+<body>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-10">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <table border="1" width="100%" cellspacing="18px" align="left" class="table">
+                            <tr>
+                                <td>ID</td>
+                                <td>Название фильма</td>
+                                <td>Возраст</td>
+                                <td>Рейтинг</td>
+                                <td>Управление
+                                    <a th:href="@{'creatFilm?id='}">  <button id="creat" type="button" class="btn btn-primary">Добавить</button></a>
+                                </td>
+                            </tr>
+
+                            <tr th:each="film: ${films}">
+                                <td th:text="${film.id}"></td>
+                                <td th:text="${film.title}"></td>
+                                <td th:text="${film.age}"></td>
+                                <td th:text="${film.rating}"></td>
+
+                                <td height="50">
+                                    <a th:href="@{'editFilm?id='+${film.id}}"> <button id="edit" type="button" class="btn btn-primary" >Изменить</button></a>
+                                    <a th:href="@{'deleteFilm?id='+${film.id}}"> <button id="delete" type="button" class="btn btn-danger">Удалить</button></a>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</body>
+</html>

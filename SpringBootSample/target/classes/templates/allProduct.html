@@ -1,0 +1,149 @@
+<!doctype html>
+<!--ctrl+n для поиска класса-->
+
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="/css/allFilms.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Продукты на складе</title>
+</head>
+<body>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-10">
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <table border="1" width="100%" cellspacing="18px" align="left" class="table">
+                            <tr>
+                                <td>ID</td>
+                                <td>Название</td>
+                                <td>Цена</td>
+                                <td>Количество </td>
+<!--                              <td><a th:href="@{'/products/creat?id='}">  <button type="button" data-toggle="modal" data-target="#addModalCenter" class="btn btn-primary">Добавить</button></a>-->
+                                <td> <button type="button" data-toggle="modal" data-target="#addProduct" class="btn btn-primary">Добавить</button></td>
+
+<!--                            </tr>-->
+
+<!--                            <tr th:each="product: ${products}">-->
+<!--                                <td th:text="${product.id}"></td>-->
+<!--                                <td th:text="${product.name}"></td>-->
+<!--                                <td th:text="${product.price}"></td>-->
+<!--                                <td th:text="${product.amount}"></td>-->
+
+<!--                                <td height="50">-->
+<!--&lt;!&ndash;                                    <a th:href="@{'/products/edit?id='+${product.id}}"> <button id="edit" type="button" class="btn btn-primary" >Изменить</button></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <a th:href="@{'/products/delete?id='+${product.id}}"> <button id="delete" type="button" class="btn btn-danger">Удалить</button></a>&ndash;&gt;-->
+<!--                                    <span th:if="${product.amount!=0}"><a th:href="@{'/products/delete?id='+${product.id}}"> <button id="delete" type="button" class="btn btn-danger">Купить</button></a></span>-->
+
+<!--                                </td>-->
+
+
+<!--                            </tr>-->
+                            <tbody id="forAdd">
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                <span class="input-group-text" id="input-name">Name</span><input  id="name" type="text" placeholder="name"></div></div>
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                <span class="input-group-text" id="input-rating">Price</span><input id="price" type="number" placeholder="price"></div></div>
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                <span class="input-group-text" id="input-age">Amount</span><input id="amount" type="number" placeholder="amount"></div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="AddProduct()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLongTitle">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="edit-id" type="text" aria-label="Name" class="form-control"   readonly>
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                    <span class="input-group-text" id="editname">Name</span><input  id="edit-Name" type="text" placeholder="name"></div></div>
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                    <span class="input-group-text" id="edit-rating">Price</span><input id="edit-Price" type="number" placeholder="price"></div></div>
+                <div class="input-group input-group-sm mb-3"><div class="input-group-prepend">
+                    <span class="input-group-text" id="edit-age">Amount</span><input id="edit-Amount" type="number" placeholder="amount"></div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="SendEditData()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="BuyProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="buy-id" type="text" aria-label="Name" class="form-control"   readonly>
+                <input id="buy-amount" type="text" aria-label="Name" class="form-control"   readonly>
+
+                Вы уверены???????
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="buyProduct()">Купить</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="/js/productPage.js" type="application/javascript"></script>
+</body>
+</html>
