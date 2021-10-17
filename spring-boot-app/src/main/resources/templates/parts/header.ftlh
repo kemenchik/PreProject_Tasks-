@@ -10,7 +10,6 @@
                 <#list authUser.getRoles() as role>
                     ${role}
                 </#list>
-
             </#if>
         </div>
     </nav>

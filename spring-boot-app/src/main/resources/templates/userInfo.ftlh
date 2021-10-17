@@ -13,4 +13,5 @@
     <button id="putFormSubmit" class="btn btn-primary">
         Save
     </button>
+    <img src="" id="userImage">
 </#macro>

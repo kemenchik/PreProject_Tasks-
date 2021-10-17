@@ -1,16 +1,19 @@
 package com.example.kemen.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.example.kemen.entities.User;
 
+import org.springframework.data.domain.Pageable;
 import java.sql.SQLException;
-import java.util.List;
 
 @Service
 public interface UserService {
     void addUser(User u);
 
-    List<User> getAllUsers();
+    Page<User> getAllUsers(Pageable pageable);
 
     User getUserById(long id);
 
@@ -19,5 +22,11 @@ public interface UserService {
     void updateUser(User user);
 
     void deleteUserById(long id);
+
+    String getImageByVkUserId(String str);
+
+    User getUserByGoogleId(String id);
+
+    UserDetails loadUserByUsername(String login) throws UsernameNotFoundException;
 }
 

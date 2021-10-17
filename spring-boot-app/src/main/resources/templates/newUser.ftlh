@@ -11,6 +11,8 @@
                id="newUserLogin" placeholder="Login">
         <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
                id="newUserPassword" placeholder="Password">
+        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+               id="newUserVkId" placeholder="VK Id">
     </div>
     <button id="addUserSubmit" class="btn btn-primary">
         Add user

@@ -28,26 +28,34 @@ public class User implements UserDetails {
     private String lastName;
     @Column(name = "password")
     private String password;
+    @Column(name = "vkImage")
+    private String vkImageUrl;
+    @Column(name = "vkId")
+    private String vkUserId;
+    @Column(name = "googleId")
+    private String googleId;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authorities",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id")})
     private Set<Authority> authorities = new HashSet<>();
 
-    public User(String login, String name, String lastName, String password, Authority authority) {
+    public User(String login, String name, String lastName, String password, String vkImageUrl, String vkUserID, Authority authority) {
         this.login = login;
         this.name = name;
         this.lastName = lastName;
         this.password = password;
+        this.vkImageUrl = vkImageUrl;
+        this.vkUserId = vkUserID;
         this.authorities.add(authority);
     }
 
-    public User(String login, String name, String lastName, String password, Set<Authority> authorities) {
+    public User(String login, String name, String surname, String password, String googleId) {
+        this.googleId = googleId;
         this.login = login;
         this.name = name;
-        this.lastName = lastName;
+        this.lastName = surname;
         this.password = password;
-        this.authorities = authorities;
     }
 
     public void addAuthority(Authority authority) {

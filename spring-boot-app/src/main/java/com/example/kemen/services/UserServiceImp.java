@@ -1,20 +1,25 @@
 package com.example.kemen.services;
 
+import com.example.kemen.entities.Role;
+import com.example.kemen.entities.User;
+import com.example.kemen.repos.RoleCrud;
+import com.example.kemen.repos.UserCrud;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.kemen.entities.User;
-import com.example.kemen.repos.UserCrud;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     private UserCrud userCrud;
+    @Autowired
+    private CacheImageService cacheImageService;
 
     @Override
     public void addUser(User user) {
@@ -22,8 +27,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userCrud.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userCrud.findAll(pageable);
     }
 
     @Override
@@ -49,7 +54,18 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        System.out.println(login);
         return getUserByLogin(login);
+    }
+
+    @Override
+    public User getUserByGoogleId(String id) {
+        return userCrud.findUserByGoogleId(id);
+    }
+
+    @Override
+    public String getImageByVkUserId(String str) {
+        return cacheImageService.getCacheableImageByUserVkId(str);
     }
 }
 

@@ -43,11 +43,14 @@
                                id="putUserPassword" placeholder="Password">
                         <input type="checkbox" id="putUserIsAdmin"> Is admin
                     </div>
-                    <button class=" btn btn-primary" id="saveUserByIdButton">Save</button>
+                    <button class="btn btn-primary" id="saveUserByIdButton">Save</button>
                 </div>
             </div>
         </div>
+        <button class="btn btn-primary" id="prevPage">Previous page</button>
+        <button class="btn btn-primary" id="nextPage">Next page</button>
     </div>
+
 
 
     <div id="new-user" class="contentPage">

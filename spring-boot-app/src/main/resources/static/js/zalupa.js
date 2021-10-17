@@ -1,3 +1,5 @@
+var page = 0;
+
 $("*").on("click", ".routerButton", (e) => {
     let els = document.getElementsByClassName("contentPage");
     Array.prototype.forEach.call(els, function (el) {
@@ -46,41 +48,75 @@ $("*").on("click", "#addUserSubmit", () => {
     createUser();
 })
 
+$("*").on("click", "#nextPage", (e) => {
+    pagResultInc();
+    $('#prevPage')[0].disabled = false;
+})
+
+$("*").on("click", "#prevPage", (e) => {
+    pagResultDec();
+})
+
 function getAllUsers() {
     let users_list = $('#all-users-list');
-    users_list.html(' <tr>' +
-        '            <td>ID</td>' +
-        '            <td>First Name</td>' +
-        '            <td>Last Name</td>' +
-        '            <td>Login</td>' +
-        '            <td>Role</td>' +
-        '            <td>Password</td>' +
-        '            <td>Edit</td>' +
-        '            <td>Delete</td>' +
-        '        </tr>')
+    users_list.html(
+        '<tr>' +
+        '<td>ID</td>' +
+        '<td>VK Image</td>' +
+        '<td>First Name</td>' +
+        '<td>Last Name</td>' +
+        '<td>Login</td>' +
+        '<td>Role</td>' +
+        '<td>Password</td>' +
+        '<td>Edit</td>' +
+        '<td>Delete</td>' +
+        '</tr>')
     $.ajax({
         type: "GET",
-        url: 'http://localhost:1337/admin/list',
+        url: 'http://localhost:1337/admin/list?page=' + page,
         success: function (result) {
-            result.forEach(el => {
-                var userRoles = el.roles.join(", ")
-                users_list.append('<tr>' +
-                    '<td>' + el.id + '</td>' +
-                    '<td>' + el.name + '</td>' +
-                    '<td>' + el.lastName + '</td>' +
-                    '<td>' + el.login + '</td>' +
-                    '<td>' + userRoles + '</td>' +
-                    '<td>' + el.password + '</td>' +
-                    '<td>\n' +
-                    '<button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#exampleModal" id="' + 'user-put-id-' + el.id + '">Edit</button>' +
-                    '</td>' +
-                    '<td>' +
-                    '<button type="button" class="btn btn-warning delete-button" id="' + 'user-delete-id-' + el.id + '">Delete</button>' +
-                    '</td>' +
-                    '</tr>')
+            $('#nextPage')[0].disabled = result.content.length < size;
+            result.content.forEach(el => {
+                $.ajax({
+                    type: "GET",
+                    url: 'http://localhost:1337/admin/' + el.id + '/image',
+                    success: function (imageUrl) {
+                        var userRoles = el.roles.join(", ")
+                        users_list.append(
+                            '<tr>' +
+                            '<td>' + el.id + '</td>' +
+                            '<td>' +
+                            '<img src="' + imageUrl + '">'
+                            + '</td>' +
+                            '<td>' + el.name + '</td>' +
+                            '<td>' + el.lastName + '</td>' +
+                            '<td>' + el.login + '</td>' +
+                            '<td>' + userRoles + '</td>' +
+                            '<td>' + el.password + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#exampleModal" id="' + 'user-put-id-' + el.id + '">Edit</button>' +
+                            '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-warning delete-button" id="' + 'user-delete-id-' + el.id + '">Delete</button>' +
+                            '</td>' +
+                            '</tr>'
+                        )
+                    }
+                })
             })
         }
     })
+    $('#prevPage')[0].disabled = page < 1;
+}
+
+function pagResultInc() {
+    page++;
+    getAllUsers();
+}
+
+function pagResultDec() {
+    page--;
+    getAllUsers();
 }
 
 function getUserInfoById(id) {
@@ -92,6 +128,13 @@ function getUserInfoById(id) {
             $('#userName').val(result.name);
             $('#userLogin').val(result.login);
             $('#userPassword').val(result.password);
+        }
+    })
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:1337/admin/' + id + '/image',
+        success: function (result) {
+            $('#userImage').attr('src', result);
         }
     })
 }
@@ -117,7 +160,8 @@ function createUser() {
             lastname: $('#newUserLastname').val(),
             name: $('#newUserName').val(),
             login: $('#newUserLogin').val(),
-            password: $('#newUserPassword').val()
+            password: $('#newUserPassword').val(),
+            vkUserId: $('#newUserVkId').val()
         },
         url: 'http://localhost:1337/admin/create',
     })
@@ -133,7 +177,8 @@ function getPutUserById(id) {
             $('#putUserName').val(result.name);
             $('#putUserLogin').val(result.login);
             $('#putUserPassword').val(result.password);
-            $('#putUserIsAdmin')[0].checked = result.admin;
+            `            $('#putUserIsAdmin')[0].checked = result.admin;
+`
         }
     }).done(() => {
         getAllUsers();
@@ -147,11 +192,11 @@ function postUserDetailsById(id) {
             id: id,
             lastname: $('#putUserLastname').val(),
             name: $('#putUserName').val(),
-            login:  $('#putUserLogin').val(),
+            login: $('#putUserLogin').val(),
             password: $('#putUserPassword').val(),
             isAdmin: $('#putUserIsAdmin')[0].checked
         },
-        url: 'http://localhost:1337/admin/put/'+id,
+        url: 'http://localhost:1337/admin/put/' + id,
     }).done(() => {
         getAllUsers();
     })
@@ -160,7 +205,7 @@ function postUserDetailsById(id) {
 function deleteUserById(id) {
     $.ajax({
         type: "POST",
-        url: 'http://localhost:1337/admin/delete/'+id
+        url: 'http://localhost:1337/admin/delete/' + id
     }).done(() => {
         getAllUsers();
     })
